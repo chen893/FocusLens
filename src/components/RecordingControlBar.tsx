@@ -1,4 +1,6 @@
 import type { RecordingRuntimeStatus } from "../types/project";
+import { Button } from "./ui/Button";
+import { Icons } from "./ui/Icons";
 
 type RecordingControlBarProps = {
   status: RecordingRuntimeStatus;
@@ -20,36 +22,52 @@ export function RecordingControlBar({
   const controlsDisabled = busyAction !== null;
 
   return (
-    <div className="panel control-bar">
-      <strong>录制控制</strong>
+    <div className="panel control-bar glass panel-glass">
+      <p className="eyebrow eyebrow-sm control-bar-title">录制控制</p>
       <div className="row gap">
         {(status === "idle" || status === "error" || status === "stopped") && (
-          <button
-            className="btn-primary"
+          <Button
+            variant="primary"
             disabled={controlsDisabled}
             onClick={() => void onStart()}
+            loading={busyAction === "start"}
+            icon={<Icons.Record />}
           >
-            {busyAction === "start" ? "启动中..." : "开始录制"}
-          </button>
+            开始录制
+          </Button>
         )}
         {status === "recording" && (
-          <button disabled={controlsDisabled} onClick={() => void onPause()}>
-            {busyAction === "pause" ? "暂停中..." : "暂停"}
-          </button>
+          <Button
+            variant="outline"
+            disabled={controlsDisabled}
+            onClick={() => void onPause()}
+            loading={busyAction === "pause"}
+            icon={<Icons.Pause />}
+          >
+            暂停
+          </Button>
         )}
         {status === "paused" && (
-          <button disabled={controlsDisabled} onClick={() => void onResume()}>
-            {busyAction === "resume" ? "继续中..." : "继续"}
-          </button>
+          <Button
+            variant="primary"
+            disabled={controlsDisabled}
+            onClick={() => void onResume()}
+            loading={busyAction === "resume"}
+            icon={<Icons.Resume />}
+          >
+            继续
+          </Button>
         )}
         {(status === "recording" || status === "paused") && (
-          <button
-            className="danger"
+          <Button
+            variant="danger"
             disabled={controlsDisabled}
             onClick={() => void onStop()}
+            loading={busyAction === "stop"}
+            icon={<Icons.Stop />}
           >
-            {busyAction === "stop" ? "停止中..." : "停止"}
-          </button>
+            停止
+          </Button>
         )}
       </div>
     </div>

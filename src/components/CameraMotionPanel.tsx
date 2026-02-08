@@ -18,13 +18,18 @@ export function CameraMotionPanel({ profile, onChange }: CameraMotionPanelProps)
       <strong>自动镜头运动（Hybrid）</strong>
       <p className="note">建议先使用 medium，再按场景微调平滑和缩放上限。</p>
       <div className="stack form-grid-two">
-        <label className="row toggle-row">
-          <input
-            type="checkbox"
-            checked={profile.enabled}
-            onChange={(event) => applyPatch({ enabled: event.target.checked })}
-          />
-          启用自动镜头运动
+        <label className="toggle-field toggle-field--full">
+          <span className="toggle-field-main">
+            <input
+              type="checkbox"
+              checked={profile.enabled}
+              onChange={(event) => applyPatch({ enabled: event.target.checked })}
+            />
+            <span className="toggle-field-title">启用自动镜头运动</span>
+          </span>
+          <span className="toggle-field-hint">
+            根据操作焦点自动平滑推拉镜头，减少手动裁切成本。
+          </span>
         </label>
         <label>
           强度

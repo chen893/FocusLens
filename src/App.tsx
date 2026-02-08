@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { listen, type UnlistenFn } from "@tauri-apps/api/event";
 import { DashboardPage } from "./pages/DashboardPage";
 import { StudioPage } from "./pages/StudioPage";
 import { useExportStore } from "./stores/exportStore";
 import { useRecordingStore } from "./stores/recordingStore";
 import { useSettingsStore } from "./stores/settingsStore";
+import { useTauriEvent } from "./hooks/useTauriEvents";
 import type { ExportStatus, ProjectListItem, RecordingStatusEvent } from "./types/project";
 
 type AppView = "dashboard" | "studio";
@@ -51,49 +51,17 @@ function App() {
     void refreshProjects();
   }, [loadSettings, refreshProjects]);
 
-  useEffect(() => {
-    let disposed = false;
-    let unlisten: UnlistenFn | null = null;
-    void listen<ExportProgressEvent>("export/progress", (event) => {
-      setProgress(
-        event.payload.taskId,
-        event.payload.status,
-        event.payload.progress,
-        event.payload.detail
-      );
-    }).then((cleanup) => {
-      if (disposed) {
-        cleanup();
-        return;
-      }
-      unlisten = cleanup;
-    });
-    return () => {
-      disposed = true;
-      if (unlisten) {
-        unlisten();
-      }
-    };
+  useTauriEvent<ExportProgressEvent>("export/progress", (event) => {
+    setProgress(
+      event.payload.taskId,
+      event.payload.status,
+      event.payload.progress,
+      event.payload.detail
+    );
   }, [setProgress]);
 
-  useEffect(() => {
-    let disposed = false;
-    let unlisten: UnlistenFn | null = null;
-    void listen<RecordingStatusEvent>("recording/status", (event) => {
-      syncRecording(event.payload);
-    }).then((cleanup) => {
-      if (disposed) {
-        cleanup();
-        return;
-      }
-      unlisten = cleanup;
-    });
-    return () => {
-      disposed = true;
-      if (unlisten) {
-        unlisten();
-      }
-    };
+  useTauriEvent<RecordingStatusEvent>("recording/status", (event) => {
+    syncRecording(event.payload);
   }, [syncRecording]);
 
   useEffect(() => {

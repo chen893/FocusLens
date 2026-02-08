@@ -60,13 +60,18 @@ export function TimelineEditor({ timeline, onChange }: TimelineEditorProps) {
             ))}
           </select>
         </label>
-        <label className="row toggle-row">
-          <input
-            type="checkbox"
-            checked={timeline.cursorHighlightEnabled}
-            onChange={(event) => applyPatch({ cursorHighlightEnabled: event.target.checked })}
-          />
-          光标高亮
+        <label className="toggle-field toggle-field--full">
+          <span className="toggle-field-main">
+            <input
+              type="checkbox"
+              checked={timeline.cursorHighlightEnabled}
+              onChange={(event) => applyPatch({ cursorHighlightEnabled: event.target.checked })}
+            />
+            <span className="toggle-field-title">光标高亮</span>
+          </span>
+          <span className="toggle-field-hint">
+            导出时突出鼠标位置，适合教程和演示类内容。
+          </span>
         </label>
       </div>
     </div>
