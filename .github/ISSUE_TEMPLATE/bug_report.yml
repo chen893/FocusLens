@@ -1,0 +1,40 @@
+name: Bug Report
+description: 提交缺陷问题
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: env
+    attributes:
+      label: 环境信息
+      description: 系统版本、FocusLens 版本、是否 Windows/macOS
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 按顺序描述如何稳定复现
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志与截图
+      description: 粘贴日志片段或截图
+    validations:
+      required: false
+
